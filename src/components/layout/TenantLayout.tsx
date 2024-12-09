@@ -12,11 +12,11 @@ const TenantLayout = ({ children }: TenantLayoutProps) => {
   };
 
   return (
-    <div className="w-full max-w-[430px] mx-auto min-h-screen bg-gray-50">
-      {children}
+    <div className="relative w-full max-w-[430px] mx-auto min-h-screen bg-gray-50">
+      <div className="pb-[60px]">{children}</div>
 
       {/* 하단 네비게이션 */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
         <div className="max-w-[430px] mx-auto px-4 h-[60px] flex items-center justify-around">
           <Link
             to="/tenant"
@@ -56,9 +56,6 @@ const TenantLayout = ({ children }: TenantLayoutProps) => {
           </Link>
         </div>
       </nav>
-
-      {/* 하단 여백 */}
-      <div className="h-[80px]" />
     </div>
   );
 };

@@ -10,6 +10,8 @@ import HistoryPage from './pages/tenant/HistoryPage';
 import RewardsPage from './pages/tenant/RewardsPage';
 import SettingsPage from './pages/tenant/SettingsPage';
 import RewardHistoryPage from './pages/tenant/RewardHistoryPage';
+import RewardDetailPage from './pages/tenant/RewardDetailPage';
+import ProfileEditPage from './pages/tenant/ProfileEditPage';
 import './App.css';
 
 function App() {
@@ -42,6 +44,8 @@ function App() {
             path="/tenant/reward-history"
             element={<RewardHistoryPage />}
           />
+          <Route path="/tenant/rewards/:id" element={<RewardDetailPage />} />
+          <Route path="/tenant/profile" element={<ProfileEditPage />} />
         </Routes>
       </div>
     </Router>

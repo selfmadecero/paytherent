@@ -33,12 +33,8 @@ const PaymentPage = () => {
     <div className="w-full max-w-[430px] mx-auto min-h-screen bg-gray-50">
       {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
-        <div className="px-4 h-[60px] flex items-center justify-between">
-          <Link to="/tenant" className="text-gray-800 hover:text-gray-600">
-            ← 뒤로가기
-          </Link>
-          <h1 className="text-lg font-bold">월세 결제</h1>
-          <div className="w-[60px]"></div>
+        <div className="px-4 h-[60px] flex items-center justify-center">
+          <h1 className="text-lg font-bold">결제내역</h1>
         </div>
       </header>
 

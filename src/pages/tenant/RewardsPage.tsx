@@ -1,61 +1,143 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import TenantLayout from '../../components/layout/TenantLayout';
+import { useState, useEffect } from 'react';
+
+interface RewardProduct {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  discount: string;
+  brandImage?: string;
+  color: string;
+}
 
 const RewardsPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get('category') || 'monthly'
+  );
+
+  useEffect(() => {
+    const category = searchParams.get('category') || 'monthly';
+    setSelectedCategory(category);
+  }, [searchParams]);
+
+  const handleCategoryChange = (categoryId: string) => {
+    setSearchParams({ category: categoryId });
+  };
+
   const rewardInfo = {
     availableAmount: 90000,
     nextReward: 30000,
     nextPaymentDate: '2024년 5월 25일',
   };
 
-  const rewardUsages = [
+  const categories = [
+    { id: 'monthly', name: '월세/공과금', icon: '💰' },
+    { id: 'travel', name: '항공/여행', icon: '✈️' },
+    { id: 'food', name: '맛집/카페', icon: '🍽️' },
+    { id: 'life', name: '생활/편의점', icon: '🏪' },
+  ];
+
+  const rewardProducts: RewardProduct[] = [
+    // 월세/공과금
     {
       id: '1',
-      icon: '💰',
-      title: '월세 결제',
-      description: '다음 달 월세 결제 시 현금처럼 사용',
+      name: '월세 결제',
+      category: 'monthly',
+      description: '다음 달 월세 결제 시 사용',
+      discount: '최대 100% 할인',
       color: 'from-blue-50 to-blue-100',
-      discount: '최대 100%',
     },
     {
       id: '2',
-      icon: '💡',
-      title: '공과금 결제',
-      description: '전기/수도/가스 요금 결제',
+      name: '전기요금',
+      category: 'monthly',
+      description: '한국전력공사 전기요금',
+      discount: '최대 5만원 할인',
       color: 'from-yellow-50 to-yellow-100',
-      discount: '최대 5만원',
     },
     {
       id: '3',
-      icon: '🏪',
-      title: '편의점',
-      description: 'CU, GS25, 세븐일레븐 등',
-      color: 'from-green-50 to-green-100',
-      discount: '최대 30% 할인',
+      name: '도시가스',
+      category: 'monthly',
+      description: '서울도시가스 요금',
+      discount: '최대 3만원 할인',
+      color: 'from-orange-50 to-orange-100',
     },
+    // 항공/여행
     {
       id: '4',
-      icon: '🍽️',
-      title: '식당/카페',
-      description: '제휴 맛집 및 프랜차이즈',
-      color: 'from-orange-50 to-orange-100',
+      name: '대한항공',
+      category: 'travel',
+      description: '국내/국제선 항공권',
+      discount: '최대 15% 할인',
+      color: 'from-sky-50 to-sky-100',
+    },
+    {
+      id: '5',
+      name: '아시아나항공',
+      category: 'travel',
+      description: '국내/국제선 항공권',
+      discount: '최대 15% 할인',
+      color: 'from-indigo-50 to-indigo-100',
+    },
+    {
+      id: '6',
+      name: '여기어때',
+      category: 'travel',
+      description: '국내 숙박 예약',
       discount: '최대 20% 할인',
+      color: 'from-purple-50 to-purple-100',
+    },
+    // 맛집/카페
+    {
+      id: '7',
+      name: '스타벅스',
+      category: 'food',
+      description: '전국 스타벅스 매장',
+      discount: '최대 30% 할인',
+      color: 'from-green-50 to-green-100',
+    },
+    {
+      id: '8',
+      name: '배달의민족',
+      category: 'food',
+      description: '배달앱 결제',
+      discount: '최대 5천원 할인',
+      color: 'from-blue-50 to-blue-100',
+    },
+    // 생활/편의점
+    {
+      id: '9',
+      name: 'CU 편의점',
+      category: 'life',
+      description: '전국 CU 매장',
+      discount: '최대 20% 할인',
+      color: 'from-purple-50 to-purple-100',
+    },
+    {
+      id: '10',
+      name: 'GS25',
+      category: 'life',
+      description: '전국 GS25 매장',
+      discount: '최대 20% 할인',
+      color: 'from-orange-50 to-orange-100',
     },
   ];
+
+  const filteredProducts = rewardProducts.filter(
+    (product) => product.category === selectedCategory
+  );
 
   return (
     <TenantLayout>
       {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
-        <div className="px-4 h-[60px] flex items-center justify-between">
-          <Link to="/tenant" className="text-gray-800 hover:text-gray-600">
-            ← 뒤로가기
-          </Link>
-          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold">
-            리워드
-          </h1>
-          <div className="w-[60px]"></div>
+        <div className="px-4 h-[60px] flex items-center justify-center">
+          <h1 className="text-lg font-bold">리워드</h1>
         </div>
       </header>
 
@@ -110,35 +192,54 @@ const RewardsPage = () => {
           </div>
         </motion.div>
 
-        {/* 리워드 사용처 */}
+        {/* 카테고리 선택 */}
         <section className="space-y-4">
-          <h2 className="text-lg font-bold">리워드 사용처</h2>
-          <div className="grid grid-cols-1 gap-4">
-            {rewardUsages.map((usage, index) => (
-              <motion.div
-                key={usage.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 + 0.2 }}
-                className={`bg-gradient-to-br ${usage.color} p-6 rounded-2xl relative overflow-hidden`}
+          <div className="flex overflow-x-auto py-2 -mx-4 px-4 space-x-2 scrollbar-hide">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleCategoryChange(category.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
+                  selectedCategory === category.id
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl shadow-sm">
-                    {usage.icon}
-                  </div>
-                  <div className="flex-1">
+                <span>{category.icon}</span>
+                <span>{category.name}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 상품 리스트 */}
+          <div className="grid grid-cols-1 gap-4">
+            {filteredProducts.map((product) => (
+              <Link
+                key={product.id}
+                to={`/tenant/rewards/${product.id}`}
+                className={`flex flex-col items-center bg-gradient-to-br ${product.color} p-6 rounded-2xl`}
+              >
+                <div className="flex items-start justify-between w-full">
+                  <div>
                     <h3 className="font-bold text-gray-900 mb-1">
-                      {usage.title}
+                      {product.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {usage.description}
+                    <p className="text-sm text-gray-600 mb-3">
+                      {product.description}
                     </p>
                     <div className="inline-block px-3 py-1 bg-white/60 rounded-full text-sm font-medium text-gray-900 backdrop-blur-sm">
-                      {usage.discount}
+                      {product.discount}
                     </div>
                   </div>
+                  {product.brandImage && (
+                    <img
+                      src={product.brandImage}
+                      alt={product.name}
+                      className="w-12 h-12 object-contain"
+                    />
+                  )}
                 </div>
-              </motion.div>
+              </Link>
             ))}
           </div>
         </section>

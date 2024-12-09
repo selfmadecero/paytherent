@@ -34,7 +34,7 @@ const RentInfoEditPage = () => {
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
         <div className="px-4 h-[60px] flex items-center justify-between">
           <Link to="/tenant" className="text-gray-800 hover:text-gray-600">
-            �� 뒤로가기
+            ← 뒤로가기
           </Link>
           <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold">
             월세 정보 변경
