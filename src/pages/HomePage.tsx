@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 // 타입 정의
@@ -35,9 +35,9 @@ const benefits: Benefit[] = [
     description: 'PLCC 카드로 결제하면 수수료 걱정 없이',
   },
   {
-    icon: '✨',
-    title: '최대 5% 리워드',
-    description: '생활비로 사용 가능한 리워드 적립',
+    icon: '💰',
+    title: '월 최대 60만원 혜택',
+    description: '연간 최대 720만원의 캐시백 혜택',
   },
   {
     icon: '⚡',
@@ -64,20 +64,21 @@ const features: Feature[] = [
   },
   {
     icon: '🎁',
-    title: '리워드 적립',
-    description: '결제 금액의 최대 5%가 리워드로 적립',
+    title: '스마트한 리워드',
+    description: '월세 100만원 결제 시 매달 5만원씩 현금성 리워드 적립',
   },
 ];
 
 const testimonials: Testimonial[] = [
   {
-    content: '월세 결제가 이렇게 편할 줄 몰랐어요. 리워드도 받고 일석이조네요!',
+    content:
+      '월세 결제가 이렇게 편할 줄 몰랐어요.\n리워드도 받고 일석이조네요!',
     emoji: '👩',
     name: '김지현',
     role: '직장인 세입자',
   },
   {
-    content: 'PLCC 카드로 수수료 없이 결제하니 정말 좋아요. 강추합니다!',
+    content: 'PLCC 카드로 수수료 없이 결제하니 정말 좋아요.\n강추합니다!',
     emoji: '👨',
     name: '이상철',
     role: '프리랜서 세입자',
@@ -99,7 +100,7 @@ const faqs: FAQ[] = [
   {
     question: '리워드는 어떻게 받을 수 있나요?',
     answer:
-      '월세 결제 시 자동으로 리워드가 적립되며, 결제 금액의 최대 5%까지 적립 가능합니다.',
+      '월세 결제 시 자동으로 리워드가 적립되며, 월 최대 5만원(연 60만원)까지 적립됩니다. 예를 들어, 월세 100만원을 결제하시면 매달 5만원의 현금성 리워드를 받으실 수 있습니다. 적립된 리워드는 다음 달 월세 결제나 제휴사에서 현금처럼 자유롭게 사용 가능합니다.',
   },
   {
     question: '자동결제는 언제 이루어지나요?',
@@ -110,6 +111,7 @@ const faqs: FAQ[] = [
 
 const HomePage = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -124,7 +126,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-[430px] mx-auto min-h-screen bg-white">
+    <div className="w-full max-w-[430px] mx-auto min-h-screen">
       {/* 스크롤 프로그레스 바 */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-50"
@@ -132,21 +134,48 @@ const HomePage = () => {
       />
 
       {/* Hero Section */}
-      <section className="px-4 pt-8 pb-12 bg-gradient-to-b from-blue-50/50 to-white">
-        {/* 상단 프로모션 배지를 더 눈에 띄게 */}
+      <section className="px-4 pt-8 pb-12 bg-gradient-to-b from-blue-50/50 via-white to-white relative overflow-hidden">
+        {/* 배경 장식 요소 */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            transition={{ duration: 1 }}
+            className="absolute top-20 left-10 w-32 h-32 bg-blue-100 rounded-full blur-3xl"
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="absolute top-40 right-10 w-32 h-32 bg-purple-100 rounded-full blur-3xl"
+          />
+        </div>
+
+        {/* 프로모션 배지 개선 */}
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="sticky top-0 z-50 mb-6 text-center"
         >
-          <motion.span
+          <motion.div
             whileHover={{ scale: 1.05 }}
-            className="inline-block px-4 py-2 text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-lg"
+            className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 p-[1px] rounded-full shadow-lg"
           >
-            <span className="animate-pulse inline-block mr-1">🎁</span>첫 결제
-            시 10만원 캐시백
-            <span className="ml-1 text-xs">(선착순 100명)</span>
-          </motion.span>
+            <div className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full">
+              <div className="flex items-center gap-2 text-sm font-medium text-white">
+                <motion.span
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  🎁
+                </motion.span>
+                <span>첫 결제 시 10만원 캐시백</span>
+                <span className="px-2 py-0.5 bg-white/20 rounded-full text-xs">
+                  선착순 100명
+                </span>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* 메인 타이틀 섹션 개선 */}
@@ -219,19 +248,22 @@ const HomePage = () => {
                 icon: '💳',
                 title: 'PLCC 카드 전용 혜택',
                 description: '수수료 0원 + 추가 캐시백',
-                color: 'bg-blue-50',
+                color: 'bg-gradient-to-br from-blue-50 to-blue-100',
+                highlight: '수수료 0원',
               },
               {
                 icon: '💰',
                 title: '최대 5% 리워드',
-                description: '월 최대 5만원까지 적립',
-                color: 'bg-purple-50',
+                description: '월 최대 60만원까지 적립',
+                color: 'bg-gradient-to-br from-purple-50 to-purple-100',
+                highlight: '연간 최대 720만원',
               },
               {
                 icon: '⚡',
                 title: '스마트한 자동결제',
                 description: '설정 한번으로 매월 자동결제',
-                color: 'bg-green-50',
+                color: 'bg-gradient-to-br from-green-50 to-green-100',
+                highlight: '자동결제',
               },
             ].map((item, index) => (
               <motion.div
@@ -239,21 +271,25 @@ const HomePage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`${item.color} p-6 rounded-2xl shadow-sm`}
+                className={`${item.color} p-6 rounded-2xl shadow-sm backdrop-blur-sm relative overflow-hidden group hover:shadow-md transition-shadow`}
               >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-sm">
+                <div className="flex items-center gap-4 relative z-10">
+                  <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-sm group-hover:scale-110 transition-transform">
                     <span className="text-2xl">{item.icon}</span>
                   </div>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <h3 className="text-[17px] font-bold text-gray-900 mb-1">
                       {item.title}
                     </h3>
                     <p className="text-[15px] text-gray-600">
+                      <span className="font-semibold block">
+                        {item.highlight}
+                      </span>
                       {item.description}
                     </p>
                   </div>
                 </div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/40 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50 group-hover:scale-110 transition-transform" />
               </motion.div>
             ))}
           </motion.div>
@@ -264,10 +300,11 @@ const HomePage = () => {
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Link
               to="/tenant"
-              className="block w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl text-[16px] font-medium shadow-lg active:shadow-md transition-all"
+              className="block w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl text-[16px] font-medium shadow-lg active:shadow-md transition-all relative overflow-hidden group hover:text-white"
             >
-              <div className="flex items-center justify-center gap-2">
-                <span>시작하기</span>
+              <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <div className="relative flex items-center justify-center gap-2">
+                <span>지금 시작하기</span>
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
@@ -281,9 +318,14 @@ const HomePage = () => {
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Link
               to="/landlord"
-              className="block w-full py-4 px-6 bg-white text-gray-700 border border-gray-200 rounded-xl text-[16px] font-medium transition-all hover:bg-gray-50"
+              className="block w-full py-4 px-6 bg-white text-gray-700 border border-gray-200 rounded-xl text-[16px] font-medium transition-all hover:bg-gray-50 hover:border-gray-300 relative overflow-hidden group"
             >
-              임대인 회원가입
+              <div className="relative flex items-center justify-center gap-2">
+                <span>임대인 회원가입</span>
+                <span className="text-gray-400 group-hover:translate-x-1 transition-transform">
+                  →
+                </span>
+              </div>
             </Link>
           </motion.div>
         </div>
@@ -320,14 +362,14 @@ const HomePage = () => {
             특별한 혜택
           </span>
           <h2 className="text-[22px] font-bold mb-2">
-            월세 결제가 특별해지는 순간
+            월세 결제가 특별해지 순간
           </h2>
           <p className="text-[15px] text-gray-600">
             PayTheRent에서만 경험할 수 있는 혜택
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-6">
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}
@@ -336,22 +378,164 @@ const HomePage = () => {
               viewport={{ once: true }}
               className="p-6 bg-gray-50 rounded-2xl"
             >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-white rounded-xl shadow-sm">
-                  <span className="text-2xl">{benefit.icon}</span>
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 flex items-center justify-center bg-white rounded-full shadow-sm mb-4">
+                  <span className="text-3xl">{benefit.icon}</span>
                 </div>
-                <div>
-                  <h3 className="text-[17px] font-bold text-gray-900 mb-1">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-[15px] text-gray-600 leading-relaxed">
-                    {benefit.description}
-                  </p>
-                </div>
+                <h3 className="text-[18px] font-bold text-gray-900 mb-2">
+                  {benefit.title}
+                </h3>
+                <p className="text-[15px] text-gray-600 leading-relaxed whitespace-pre-line">
+                  {benefit.description}
+                </p>
               </div>
             </motion.div>
           ))}
         </div>
+      </section>
+
+      {/* Rewards Usage Section */}
+      <section className="px-4 py-12 bg-gradient-to-b from-white to-blue-50/30">
+        <div className="text-center mb-8">
+          <span className="inline-block px-3 py-1 text-sm text-rose-600 bg-rose-50 rounded-full mb-3">
+            리워드 사용처
+          </span>
+          <h2 className="text-[22px] font-bold mb-2">
+            월세 결제하고 받은 리워드로
+            <br />
+            일상의 즐거움을 더하세요
+          </h2>
+          <p className="text-[15px] text-gray-600">
+            다양한 곳에서 현금처럼 자유롭게 사용
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          {[
+            {
+              icon: '🍽️',
+              category: '맛집',
+              description: '전국 맛집\n제휴 할인',
+              color: 'from-orange-50 to-orange-100',
+              brands: ['배달의민족', '요기요', '쿠팡이츠'],
+            },
+            {
+              icon: '🏨',
+              category: '숙박',
+              description: '호텔/펜션\n특가 예약',
+              color: 'from-blue-50 to-blue-100',
+              brands: ['야놀자', '여기어때', '아고다'],
+            },
+            {
+              icon: '✈️',
+              category: '여행',
+              description: '항공권/패키지\n할인',
+              color: 'from-sky-50 to-sky-100',
+              brands: ['마이리얼트립', '익스피디아', '클룩'],
+            },
+            {
+              icon: '⛳',
+              category: '레저',
+              description: '액티비티\n할인 예약',
+              color: 'from-green-50 to-green-100',
+              brands: ['클래스101', '프립', '액티비티'],
+            },
+            {
+              icon: '💡',
+              category: '공과금',
+              description: '각 공과금\n결제',
+              color: 'from-yellow-50 to-yellow-100',
+              brands: ['전기요금', '수도요금', '도시가스'],
+            },
+            {
+              icon: '⛽',
+              category: '주유',
+              description: '주유/충전\n할인',
+              color: 'from-purple-50 to-purple-100',
+              brands: ['GS칼텍스', 'SK에너지', 'S-OIL'],
+            },
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
+              className={`bg-gradient-to-br ${item.color} p-5 rounded-2xl relative overflow-hidden group`}
+            >
+              {/* 배경 장식 */}
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 0.1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 + 0.2 }}
+                className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-1/2 translate-x-1/2"
+              />
+
+              <div className="relative z-10">
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 + 0.1 }}
+                  className="text-3xl mb-3"
+                >
+                  {item.icon}
+                </motion.div>
+                <h3 className="text-[16px] font-bold text-gray-900 mb-1">
+                  {item.category}
+                </h3>
+                <p className="text-[14px] text-gray-600 whitespace-pre-line mb-3">
+                  {item.description}
+                </p>
+                <div className="text-[12px] text-gray-500">
+                  {item.brands.join(' • ')}
+                </div>
+              </div>
+
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* 추가 혜택 배너 */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-2xl text-white relative overflow-hidden"
+        >
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-2">
+              <motion.span
+                animate={{ rotate: [0, 15, -15, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="text-2xl"
+              >
+                🎉
+              </motion.span>
+              <h3 className="text-lg font-bold">더 큰 혜택을 누려보세요</h3>
+            </div>
+            <p className="text-sm text-white/90 mb-4">
+              PLCC 카드로 결제 시 모든 사용처에서
+              <br />
+              추가 5% 할인 혜택을 제공해드려요
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-4 py-2 bg-white text-blue-600 rounded-lg text-sm font-medium"
+            >
+              혜택 더 알아보기 →
+            </motion.button>
+          </div>
+
+          {/* 배경 장식 */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+        </motion.div>
       </section>
 
       {/* Pricing Section */}
@@ -398,7 +582,7 @@ const HomePage = () => {
             <ul className="space-y-3 mb-6">
               {[
                 '모든 카드사 결제 가능',
-                '월 최대 3% 리워드 적립',
+                '월 최대 5% 리워드 적립',
                 '자동결제 설정',
                 '월세 납부 내역 관리',
               ].map((feature, index) => (
@@ -455,11 +639,13 @@ const HomePage = () => {
             <ul className="space-y-3 mb-6">
               {[
                 '결제 수수료 완전 면제',
-                '월 최대 5% 리워드 적립',
+                '월 최대 60만원 캐시백 (연 720만원)',
+                '전월 실적 조건 없음',
                 '자동결제 설정',
                 '월세 납부 내역 관리',
                 '프리미엄 고객 전용 상담',
                 '카드 발급 시 10만원 캐시백',
+                '제휴사 추가 5~10% 할인',
               ].map((feature, index) => (
                 <li key={index} className="flex items-center text-[15px]">
                   <span className="mr-2">✓</span>
@@ -485,7 +671,7 @@ const HomePage = () => {
           <div className="mt-6 text-center">
             <p className="text-[14px] text-gray-500">
               * PLCC 카드는 신용평가 후 발급 가능합니다
-              <br />* 리워드 적립 한도는 월 최대 5만원입니다
+              <br />* 리워드 적립 한도는 월 최대 60만원입니다
             </p>
           </div>
         </div>
@@ -498,14 +684,16 @@ const HomePage = () => {
             이용 방법
           </span>
           <h2 className="text-[22px] font-bold mb-2">
-            3분만에 시작하는 스마트한 월세 결제
+            3분만에 시작하는
+            <br />
+            스마트한 월세 결제
           </h2>
           <p className="text-[15px] text-gray-600">
             복잡한 과정 없이 빠르게 시작하세요
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-6">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -514,18 +702,16 @@ const HomePage = () => {
               viewport={{ once: true }}
               className="p-6 bg-white rounded-2xl shadow-sm"
             >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gray-50 rounded-xl">
-                  <span className="text-2xl">{feature.icon}</span>
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 flex items-center justify-center bg-gray-50 rounded-full mb-4">
+                  <span className="text-3xl">{feature.icon}</span>
                 </div>
-                <div>
-                  <h3 className="text-[17px] font-bold text-gray-900 mb-1">
-                    {feature.title}
-                  </h3>
-                  <p className="text-[15px] text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+                <h3 className="text-[18px] font-bold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-[15px] text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -539,7 +725,9 @@ const HomePage = () => {
             고객 후기
           </span>
           <h2 className="text-[22px] font-bold mb-2">
-            이미 많은 분들이 경험하고 있어요
+            이미 많은 분들이
+            <br />
+            경험하고 있어요
           </h2>
           <p className="text-[15px] text-gray-600">
             PayTheRent 사용자들의 실제 후기
@@ -555,19 +743,21 @@ const HomePage = () => {
               viewport={{ once: true }}
               className="p-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-100"
             >
-              <p className="text-[15px] text-gray-600 leading-relaxed mb-4">
-                {testimonial.content}
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500">
-                  {testimonial.emoji}
-                </div>
-                <div>
-                  <div className="text-[15px] font-medium text-gray-900">
-                    {testimonial.name}
+              <div className="flex flex-col items-center text-center">
+                <p className="text-[15px] text-gray-600 leading-relaxed mb-4 whitespace-pre-line">
+                  {testimonial.content}
+                </p>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-2xl">
+                    {testimonial.emoji}
                   </div>
-                  <div className="text-[13px] text-gray-500">
-                    {testimonial.role}
+                  <div className="text-center">
+                    <div className="text-[16px] font-medium text-gray-900">
+                      {testimonial.name}
+                    </div>
+                    <div className="text-[14px] text-gray-500">
+                      {testimonial.role}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -597,14 +787,53 @@ const HomePage = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="p-6 bg-white rounded-2xl"
+              className="bg-white rounded-2xl overflow-hidden border border-gray-100"
             >
-              <h3 className="text-[16px] font-bold text-gray-900 mb-2">
-                {faq.question}
-              </h3>
-              <p className="text-[14px] text-gray-600 leading-relaxed">
-                {faq.answer}
-              </p>
+              <button
+                onClick={() =>
+                  setOpenFaqIndex(openFaqIndex === index ? null : index)
+                }
+                className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-[16px] font-medium text-gray-900">
+                  {faq.question}
+                </span>
+                <motion.span
+                  animate={{ rotate: openFaqIndex === index ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-gray-400 text-sm"
+                >
+                  ▼
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {openFaqIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{
+                      height: 'auto',
+                      opacity: 1,
+                      transition: {
+                        height: { duration: 0.3 },
+                        opacity: { duration: 0.2, delay: 0.1 },
+                      },
+                    }}
+                    exit={{
+                      height: 0,
+                      opacity: 0,
+                      transition: {
+                        height: { duration: 0.3 },
+                        opacity: { duration: 0.2 },
+                      },
+                    }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 py-4 text-[15px] text-gray-600 border-t border-gray-100">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
