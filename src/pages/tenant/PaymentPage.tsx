@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 const PaymentPage = () => {
   const [useReward, setUseReward] = useState(false);
+  const [rewardAmount, setRewardAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const paymentInfo = {
@@ -17,8 +18,17 @@ const PaymentPage = () => {
     },
   };
 
+  const handleRewardAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    if (parseInt(value) > paymentInfo.reward) {
+      setRewardAmount(paymentInfo.reward.toString());
+    } else {
+      setRewardAmount(value);
+    }
+  };
+
   const finalAmount = useReward
-    ? paymentInfo.amount - paymentInfo.reward
+    ? paymentInfo.amount - (parseInt(rewardAmount) || 0)
     : paymentInfo.amount;
 
   const handlePayment = () => {
@@ -81,20 +91,65 @@ const PaymentPage = () => {
 
           {/* 리워드 사용 옵션 */}
           <div className="border-t border-gray-100 pt-4">
-            <label className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+            <label className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer group">
               <div>
                 <div className="font-medium">리워드 사용</div>
                 <div className="text-sm text-gray-500">
                   사용 가능한 리워드: {paymentInfo.reward.toLocaleString()}원
                 </div>
               </div>
-              <input
-                type="checkbox"
-                checked={useReward}
-                onChange={(e) => setUseReward(e.target.checked)}
-                className="w-5 h-5 text-blue-600 rounded-md focus:ring-blue-500"
-              />
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  checked={useReward}
+                  onChange={(e) => {
+                    setUseReward(e.target.checked);
+                    if (!e.target.checked) {
+                      setRewardAmount('');
+                    }
+                  }}
+                  className="peer w-5 h-5 text-blue-600 bg-white border-2 border-gray-300 rounded-md 
+                    focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 
+                    checked:bg-blue-600 checked:border-0
+                    appearance-none transition-all duration-200
+                    hover:border-blue-500 group-hover:border-blue-500"
+                />
+                {/* Custom checkmark */}
+                <svg
+                  className="absolute inset-0 w-5 h-5 pointer-events-none opacity-0 peer-checked:opacity-100 text-white transition-opacity duration-200"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
             </label>
+
+            {/* 리워드 사용 금액 입력 */}
+            {useReward && (
+              <div className="mt-3 px-2">
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={rewardAmount}
+                    onChange={handleRewardAmountChange}
+                    placeholder="사용할 리워드 금액 입력"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    원
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  최대 {paymentInfo.reward.toLocaleString()}원까지 사용 가능
+                </p>
+              </div>
+            )}
           </div>
         </motion.div>
 
@@ -111,10 +166,10 @@ const PaymentPage = () => {
               <span>월세 금액</span>
               <span>{paymentInfo.amount.toLocaleString()}원</span>
             </div>
-            {useReward && (
+            {useReward && parseInt(rewardAmount) > 0 && (
               <div className="flex justify-between text-blue-600">
                 <span>리워드 사용</span>
-                <span>-{paymentInfo.reward.toLocaleString()}원</span>
+                <span>-{parseInt(rewardAmount).toLocaleString()}원</span>
               </div>
             )}
             <div className="pt-3 border-t border-gray-100 flex justify-between font-bold text-lg">

@@ -16,7 +16,7 @@ const TenantLayout = ({ children }: TenantLayoutProps) => {
       <div className="pb-[60px]">{children}</div>
 
       {/* 하단 네비게이션 */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40">
         <div className="max-w-[430px] mx-auto px-4 h-[60px] flex items-center justify-around">
           <Link
             to="/tenant"

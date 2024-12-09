@@ -155,7 +155,7 @@ const SettingsPage = () => {
             </Link>
             <button
               onClick={() => setShowLogoutModal(true)}
-              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors text-red-500"
+              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors text-red-500 bg-white"
             >
               <span>로그아웃</span>
               <span>→</span>
@@ -182,7 +182,7 @@ const SettingsPage = () => {
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setShowLogoutModal(false)}
-                className="py-3 px-4 text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                className="py-3 px-4 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
               >
                 취소
               </button>

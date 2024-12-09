@@ -51,7 +51,7 @@ const DashboardPage = () => {
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setShowLogoutModal(false)}
-                className="py-3 px-4 text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                className="py-3 px-4 text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
               >
                 취소
               </button>
@@ -88,7 +88,7 @@ const DashboardPage = () => {
               {paymentInfo.amount.toLocaleString()}원
             </div>
             <p className="text-sm text-gray-500 mt-2">
-              납부일: {paymentInfo.dueDate}
+              다음 납부일: {paymentInfo.dueDate}
             </p>
           </div>
 
