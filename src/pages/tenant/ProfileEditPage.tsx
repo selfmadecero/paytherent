@@ -35,7 +35,7 @@ const ProfileEditPage = () => {
         <div className="px-4 h-[60px] flex items-center justify-between">
           <Link
             to="/tenant/settings"
-            className="text-gray-800 hover:text-gray-600"
+            className="text-gray-800 hover:text-gray-600 bg-transparent"
           >
             ← 뒤로가기
           </Link>

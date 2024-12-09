@@ -27,7 +27,7 @@ const DashboardPage = () => {
           <h1 className="text-lg font-bold">PayTheRent</h1>
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="text-gray-600 hover:text-gray-800"
+            className="text-gray-600 hover:text-gray-800 bg-transparent"
           >
             로그아웃
           </button>
@@ -42,7 +42,9 @@ const DashboardPage = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-[320px] bg-white rounded-2xl p-6 space-y-4"
           >
-            <h2 className="text-lg font-bold text-center">로그아웃</h2>
+            <h2 className="text-lg font-bold text-gray-900 text-center">
+              로그아웃
+            </h2>
             <p className="text-gray-600 text-center">
               정말 로그아웃 하시겠습니까?
             </p>

@@ -62,7 +62,7 @@ const RentInfoPage = () => {
                     name="rentAmount"
                     value={rentInfo.rentAmount}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="1,000,000"
                   />
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -78,7 +78,7 @@ const RentInfoPage = () => {
                   name="rentDay"
                   value={rentInfo.rentDay}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">납부일 선택</option>
                   {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
@@ -110,7 +110,7 @@ const RentInfoPage = () => {
                   name="landlordName"
                   value={rentInfo.landlordName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="홍길동"
                 />
               </div>
@@ -122,7 +122,7 @@ const RentInfoPage = () => {
                   name="bankName"
                   value={rentInfo.bankName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">은행 선택</option>
                   {['신한은행', '국민은행', '우리은행', '하나은행'].map(
@@ -143,7 +143,7 @@ const RentInfoPage = () => {
                   name="bankAccount"
                   value={rentInfo.bankAccount}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="'-' 없이 입력"
                 />
               </div>
@@ -156,7 +156,7 @@ const RentInfoPage = () => {
                   name="phoneNumber"
                   value={rentInfo.phoneNumber}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="010-0000-0000"
                 />
               </div>
@@ -215,7 +215,7 @@ const RentInfoPage = () => {
           {step > 1 ? (
             <button
               onClick={() => setStep(step - 1)}
-              className="text-gray-800 hover:text-gray-600"
+              className="text-gray-800 hover:text-gray-600 bg-transparent"
             >
               ← 이전
             </button>

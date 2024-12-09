@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const CardIcon = () => (
   <svg
     className="w-12 h-12"

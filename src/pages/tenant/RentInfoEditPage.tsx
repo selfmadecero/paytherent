@@ -33,7 +33,10 @@ const RentInfoEditPage = () => {
       {/* 헤더 */}
       <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
         <div className="px-4 h-[60px] flex items-center justify-between">
-          <Link to="/tenant" className="text-gray-800 hover:text-gray-600">
+          <Link
+            to="/tenant"
+            className="text-gray-800 hover:text-gray-600 bg-transparent"
+          >
             ← 뒤로가기
           </Link>
           <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-bold">
@@ -61,7 +64,7 @@ const RentInfoEditPage = () => {
                   name="rentAmount"
                   value={rentInfo.rentAmount}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="1,000,000"
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -78,7 +81,7 @@ const RentInfoEditPage = () => {
                 name="rentDay"
                 value={rentInfo.rentDay}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
                   <option key={day} value={day}>
@@ -97,7 +100,7 @@ const RentInfoEditPage = () => {
                 name="landlordName"
                 value={rentInfo.landlordName}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -109,7 +112,7 @@ const RentInfoEditPage = () => {
                 name="bankName"
                 value={rentInfo.bankName}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {['신한은행', '국민은행', '우리은행', '하나은행'].map(
                   (bank) => (
@@ -130,7 +133,7 @@ const RentInfoEditPage = () => {
                 name="bankAccount"
                 value={rentInfo.bankAccount}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="'-' 없이 입력"
               />
             </div>
