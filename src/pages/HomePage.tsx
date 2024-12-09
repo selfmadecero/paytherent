@@ -299,19 +299,11 @@ const HomePage = () => {
         <div className="space-y-4">
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Link
-              to="/tenant"
-              className="block w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl text-[16px] font-medium shadow-lg active:shadow-md transition-all relative overflow-hidden group hover:text-white"
+              to="/tenant/rent-info"
+              className="block w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl text-[16px] font-medium hover:shadow-lg transition-all relative overflow-hidden group hover:text-white"
             >
-              <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              <div className="relative flex items-center justify-center gap-2">
-                <span>지금 시작하기</span>
-                <motion.span
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                >
-                  →
-                </motion.span>
-              </div>
+              <div className="absolute inset-0 bg-black/10 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <span className="relative z-10">지금 시작하기</span>
             </Link>
           </motion.div>
 
@@ -547,7 +539,7 @@ const HomePage = () => {
           <h2 className="text-[22px] font-bold mb-2">
             합리적인 수수료로
             <br />
-            월세 결제를 시작하세요
+            월세 결제를 시작���세요
           </h2>
           <p className="text-[15px] text-gray-600">
             PLCC 카드로 수수료 부담을 줄일 수 있어요
@@ -581,7 +573,7 @@ const HomePage = () => {
             </div>
             <ul className="space-y-3 mb-6">
               {[
-                '모든 카드사 결제 가능',
+                '모��� 카드사 결제 가능',
                 '월 최대 5% 리워드 적립',
                 '자동결제 설정',
                 '월세 납부 내역 관리',
@@ -725,7 +717,7 @@ const HomePage = () => {
             고객 후기
           </span>
           <h2 className="text-[22px] font-bold mb-2">
-            이미 많은 분들이
+            ���미 많은 분들이
             <br />
             경험하고 있어요
           </h2>
