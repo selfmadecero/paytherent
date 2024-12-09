@@ -789,7 +789,7 @@ const HomePage = () => {
                 onClick={() =>
                   setOpenFaqIndex(openFaqIndex === index ? null : index)
                 }
-                className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+                className="w-full p-6 flex items-center justify-between text-left bg-white hover:bg-gray-50 transition-colors"
               >
                 <span className="text-[16px] font-medium text-gray-900">
                   {faq.question}
